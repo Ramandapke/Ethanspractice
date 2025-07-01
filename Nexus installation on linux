@@ -4,17 +4,19 @@
 
 3 wget https://download.sonatype.com/nexus/3/nexus-3.79.1-04-linux-x86_64.tar.gz
 
-4 tar -xvf latest-unix.tar.gz
+4  ls -ltrh 
+
+tar -xvf latest-unix.tar.gz
     
 5 ls -ltrh  
  
-6 mv nexus-3.19.1-01 nexus3
+6 mv nexus-3.19.1-01 nexus
  
 7 ls -ltrh  
    
 8 chown -R ec2-user:ec2-user nexus sonatype-work
    
-9 cd nexus3
+9 cd nexus
 
 
 10 vi/opt/nexus/bin/nexus.rc
@@ -23,13 +25,14 @@ Add:
 
 run_as_user="nexus"
 
+
 11 tee -a /opt/nexus/bin/nexus.rc > /dev/null << EOF
    run_as_user="ec2-user"
    EOF
 
 
 12 vi /etc/systemd/system/nexus.service
-
+paste below content in this file. 
 
 [Unit]
 Description=nexus service
@@ -48,7 +51,7 @@ Restart=on-abort
 WantedBy=multi-user.target
 
 
-
+13 
 sudo systemctl daemon-reexec
 sudo systemctl daemon-reload
 sudo systemctl enable nexus
